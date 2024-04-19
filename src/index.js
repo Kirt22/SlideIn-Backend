@@ -20,8 +20,8 @@ app.use("/users", userRouter);
 app.use("/thread", threadRouter);
 
 // Root URL
-app.get("/", (req, res) => {
-    res.send("Welcome to RizzAI API");
+app.get((req, res) => {
+    res.send("Welcome to SlideIn API");
 });
 
 // MongoDB connection 
