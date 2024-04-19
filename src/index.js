@@ -20,7 +20,7 @@ app.use("/users", userRouter);
 app.use("/thread", threadRouter);
 
 // Root Route
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
     res.send("Welcome to SlideIn API");
 });
 
