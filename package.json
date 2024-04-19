@@ -1,13 +1,12 @@
 {
   "name": "slidein-backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kirtan Solanki",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -20,5 +19,15 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.0",
     "openai": "^4.38.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kirt22/SlideIn-Backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kirt22/SlideIn-Backend/issues"
+  },
+  "homepage": "https://github.com/Kirt22/SlideIn-Backend#readme",
+  "description": ""
 }
