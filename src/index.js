@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 // Router paths
-//app.use("/users", userRouter);
+app.use("/users", userRouter);
 app.use("/thread", threadRouter);
 
 // Root Route
