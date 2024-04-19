@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const mongoose = require("mongoose");
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 // MongoDB connection 
 mongoose.connect(process.env.MONGO_CONNECTION_STRING)
     .then(() => {
-        app.listen(port || 1000, () => {
+        app.listen(port, () => {
             console.log(`Server started at http://localhost:${port}`);
         });
         console.log("DB Connected!");
