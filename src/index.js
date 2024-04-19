@@ -21,7 +21,7 @@ app.use("/thread", threadRouter);
 
 // Root Route
 app.get("/test", (req, res) => {
-    res.send("Welcome to SlideIn API");
+    res.json({message: "Welcome to SlideIn API"});
 });
 
 // MongoDB connection 
