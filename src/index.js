@@ -19,8 +19,8 @@ app.use(cors());
 app.use("/users", userRouter);
 app.use("/thread", threadRouter);
 
-// Root URL
-app.get((req, res) => {
+// Root Route
+app.get("/", (req, res) => {
     res.send("Welcome to SlideIn API");
 });
 
