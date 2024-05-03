@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "Kirtan Solanki",
@@ -21,7 +21,8 @@
     "mongoose": "^8.3.2",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.0",
-    "openai": "^4.38.2"
+    "openai": "^4.38.2",
+    "redis": "^4.6.13"
   },
   "repository": {
     "type": "git",

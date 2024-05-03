@@ -1,6 +1,7 @@
 const userModel = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const client = require("../index");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -30,6 +31,9 @@ const signup = async (req, res) => {
 
         // Generate token
         const token = jwt.sign({ email: result.email, id: result._id }, JWT_SECRET_KEY);
+
+        // generate a new redis sorted set 
+        client.zadd("leaderboard", 0, result._id.toString());
 
         res.status(201).json({ message: "Sign up successfull!", user: result, token: token });
 

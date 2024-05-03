@@ -1,10 +1,30 @@
 const express = require("express");
 const userRouter = require("./routes/userRoutes");
 const threadRouter = require("./routes/threadRoutes");
+const leaderboardRouter = require("./routes/leaderboardRoutes");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const { createClient } = require('redis');
 
 dotenv.config();
+
+const client = createClient({
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT    
+    }
+});
+
+client.on('error', err => {
+    console.log('Error ' + err);
+});
+
+client.on('ready', () => {
+    console.log("Redis is connected!");
+});
+
+
 
 const app = express();
 const mongoose = require("mongoose");
@@ -18,6 +38,7 @@ app.use(cors());
 // Router paths
 app.use("/users", userRouter);
 app.use("/thread", threadRouter);
+//app.use("/leaderboard", leaderboardRouter);
 
 // Root Route
 app.get("/test", (req, res) => {
@@ -34,3 +55,5 @@ mongoose.connect(process.env.MONGO_CONNECTION_STRING)
     }).catch((error) => {
         console.log(error);
     });
+
+module.exports = client;
