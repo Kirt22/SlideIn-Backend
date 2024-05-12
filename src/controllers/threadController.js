@@ -5,7 +5,6 @@ const threadModel = require("../models/thread.js");
 const userModel = require("../models/user.js");
 const generatedResponseModel = require("../models/generatedResponse.js")
 const dotenv = require("dotenv");
-const user = require("../models/user.js");
 dotenv.config();
 
 // const { verifyImage } = require("../verificationModule/verification");
@@ -232,7 +231,6 @@ module.exports = {
     getThreads,
     generateResponse,
     deleteThread,
-    getLeaderBoard,
-    updateUserScore,
-    getGeneratedResponses
+    getGeneratedResponses,
+    deleteAllThread
 };

@@ -4,8 +4,8 @@ const {
   getThreads,
   getGeneratedResponses,
   deleteThread,
-  getLeaderBoard,
-  generateResponse
+  generateResponse,
+  deleteAllThread
 } = require("../controllers/threadController");
 const auth = require("../middleware/auth");
 
@@ -23,7 +23,7 @@ threadRouter.delete("/:id", auth, deleteThread);
 
 threadRouter.post("/generate", auth, generateResponse);
 
-threadRouter.get("/leaderBoard/fetchAll", auth, getLeaderBoard);
+threadRouter.get("/deleteAll/:id", auth, deleteAllThread);
 
 // userSessionRouter.post(
 //   "/updateUserScore",
