@@ -2,6 +2,7 @@ const userModel = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const client = require("../index");
+const { sendResetEmail } = require("../utils/emailUtils");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -72,4 +73,63 @@ const signin = async (req, res) => {
 
 }
 
-module.exports = { signin, signup }; 
+const forgotPassword = async (req, res) => {
+
+    const { email } = req.body;
+
+    try {
+        // Check if user exists
+        const existingUser = await userModel.findOne({ email: email });
+        if (!existingUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Generate token
+        const secret = process.env.JWT_SECRET_KEY + existingUser.password;
+        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, secret, { expiresIn: "15m" });
+
+        // Generate reset link
+        const link = `${process.env.RESET_LINK}/${existingUser._id}/${token}`;
+
+        // Send email
+        await sendResetEmail(email, resetLink); // Send email
+
+        res.status(200).json({ message: "Password reset email sent" });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong!" });
+    }
+}
+
+const resetPassword = async (req, res) => {
+
+    const { userId, token } = req.params;
+    const { password } = req.body;
+
+    try {
+        // Check if user exists
+        const existingUser = await userModel.findOne({ _id: userId });
+        if (!existingUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Verify token
+        const secret = process.env.JWT_SECRET_KEY + existingUser.password;
+        const payload = jwt.verify(token, secret);
+
+        // Generate hashed password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Update user
+        await userModel.updateOne({ _id: userId }, { password: hashedPassword });
+
+        res.status(200).json({ message: "Password reset successfull" });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong!" });
+    }
+}
+
+module.exports = { signin, signup, forgotPassword, resetPassword }; 

@@ -1,11 +1,10 @@
 const fs = require("fs");
 const OpenAI = require("openai");
-const API_KEY = "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";
-
-console.log(process.env.API_KEY);
+const dotenv = require("dotenv");
+dotenv.config();
 
 const openai = new OpenAI({
-    apiKey: API_KEY
+    apiKey: process.env.API_KEY
 });
 
 const image1Path = "/Users/kirtansolanki/Downloads/image1.jpeg";
