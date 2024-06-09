@@ -3,6 +3,7 @@ const cors = require("cors");
 const userRouter = require("./routes/userRoutes");
 const threadRouter = require("./routes/threadRoutes");
 const leaderboardRouter = require("./routes/leaderboardRoutes");
+const verifyRouter = require("./routes/verifyRoutes");
 require("./helpers/init_mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(cors());
 app.use("/users", userRouter);
 app.use("/thread", threadRouter);
 app.use("/leaderboard", leaderboardRouter);
+app.use("/verify", verifyRouter);
 
 // Root Route
 app.get("/test", (req, res) => {
