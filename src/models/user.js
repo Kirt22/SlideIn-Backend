@@ -17,6 +17,15 @@ const userSchema = mongoose.Schema({
         type: Number,
         required: false,
         default: 0
+    },
+    uses: {
+        type: Number,
+        required: true,
+        default: 15
+    },
+    subscription: {
+        type: String,
+        
     }
 }, { timestamps: true });
 
