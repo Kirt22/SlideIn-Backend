@@ -1,4 +1,5 @@
 const OpenAI = require("openai");
+const userModel = require("../models/user.js");
 const threadModel = require("../models/thread.js");
 const generatedResponseModel = require("../models/generatedResponse.js")
 const dotenv = require("dotenv");
@@ -24,7 +25,7 @@ const getThreads = async (req, res) => {
 
 const getGeneratedResponses = async (req, res) => {
     try {
-        
+
         const id = req.params.id;
 
         const sessions = await generatedResponseModel.find({ promptId: id });
@@ -41,6 +42,11 @@ const generateResponse = async (req, res) => {
     const { userPrompt, tweakingParameters } = req.body;
     const userId = req.userId;
     let generatedResponse;
+
+    const user = await userModel.findById(userId);
+    if (user.subscription === 'free' && user.uses <= 1) {
+        return res.status(402).json({ message: "Out of uses. Please upgrade your plan." });
+    }
 
     // Generate a ChatGPT response
     try {
@@ -62,6 +68,15 @@ const generateResponse = async (req, res) => {
     }
 
     try {
+        // updating the uses of the user
+        if(user.subscription === 'free') {
+            const updatedUser = await userModel.findOneAndUpdate(
+                { _id: userId },
+                { $inc: { uses: -1 } }, // Use $inc for decrementing
+                { new: true } // Return the updated document
+              );
+            //console.log(updatedUser);
+        }
 
         let newThread;
         let newThreadId;
@@ -125,7 +140,7 @@ const deleteAllThread = async (req, res) => {
         // Delete all threads associated with the userId
         const acknowledgement = await Thread.deleteMany({ userId });
 
-        res.status(202).Json({message: acknowledgement});
+        res.status(202).Json({ message: acknowledgement });
 
     } catch (error) {
         console.log(error);

@@ -25,7 +25,13 @@ const userSchema = mongoose.Schema({
     },
     subscription: {
         type: String,
-        
+        required: true,
+        default: "free",
+        enum: ['free', 'pro']
+    },
+    lastResetDate: {
+        type: Date,
+        required: false
     }
 }, { timestamps: true });
 
