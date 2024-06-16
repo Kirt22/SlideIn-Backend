@@ -22,7 +22,7 @@ app.use("/leaderboard", leaderboardRouter);
 app.use("/verify", verifyRouter);
 
 // Root Route
-app.get("/test", (req, res) => {
+app.get("/welcome", (req, res) => {
     res.json({ message: "Welcome to SlideIn API" });
 });
 
