@@ -1,5 +1,6 @@
 const redis = require('redis');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 const client = redis.createClient({
     password: process.env.REDIS_PASSWORD,
@@ -9,20 +10,12 @@ const client = redis.createClient({
     }
 });
 
-let isConnected = false;
-
 client.on('connect', () => {
-    if (!isConnected) {
-        console.log('Connected to Redis...');
-        isConnected = true;
-    }
+    console.log('Trying to connect to Redis...');
 });
 
 client.on('ready', () => {
-    if (!isConnected) {
-        console.log('Connected and ready to use Redis...');
-        isConnected = true;
-    }
+    console.log('Connected and ready to use Redis...');
 });
 
 client.on('error', (err) => {
@@ -30,12 +23,11 @@ client.on('error', (err) => {
 });
 
 client.on('end', () => {
-    console.log("Redis connection closed...");
-    isConnected = false;
+    console.log('Redis connection closed...');
 });
 
-process.on('SIGINT', () => {
-    client.quit();
-});
+if(!client.isOpen) {
+    client.connect();
+}
 
-module.exports = client;
+exports.client = client;

@@ -1,7 +1,7 @@
 const userModel = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { redisClient } = require("../index");
+const { client } = require("../helpers/init_redis");
 const { sendResetEmail } = require("../utils/emailUtils");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -34,10 +34,7 @@ const signup = async (req, res) => {
         const token = jwt.sign({ email: result.email, id: result._id }, JWT_SECRET_KEY);
 
         // generate a new redis sorted set
-        // redisClient.zadd('leaderboard', 0, result._id.toString(), (err, reply) => {
-        //     if (err) throw err;
-        //     console.log(reply); // Output: 1
-        // });
+        await client.zAdd('leaderboard', [{ score: 0, value: result._id.toString() }]);
 
         res.status(201).json({ message: "Sign up successfull!", user: result, token: token });
 
@@ -132,15 +129,6 @@ const resetPassword = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Something went wrong!" });
-    }
-}
-
-async function connectRedisClient() {
-    try{
-        let confirmation = await redisClient.connect();
-        console.log(confirmation);
-    } catch (error) {
-        console.log(error);
     }
 }
 

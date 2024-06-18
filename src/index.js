@@ -6,7 +6,7 @@ const leaderboardRouter = require("./routes/leaderboardRoutes");
 const verifyRouter = require("./routes/verifyRoutes");
 require("./helpers/init_mongoose");
 const dotenv = require("dotenv");
-dotenv.config();
+dotenv.config();  
 
 const app = express();
 const port = process.env.PORT || 3000;

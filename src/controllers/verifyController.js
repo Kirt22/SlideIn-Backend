@@ -1,6 +1,7 @@
 const { performOCR } = require('../utils/OCRUtils');
 const generatedResponseModel = require("../models/generatedResponse.js")
 const OpenAI = require("openai");
+const {updateScore} = require("../utils/scoreUpdateUtils");
 const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const dotenv = require("dotenv");
@@ -58,8 +59,9 @@ const verify = async (req, res) => {
         console.log(chatGPTResponse.choices[0].message.content);
         const JSONresponse = JSON.parse(chatGPTResponse.choices[0].message.content);
 
-        // change isVerified status in DB
         if (JSONresponse.response) {
+            // change isVerified status in DB
+            // potential error here
             const result = generatedResponseModel.update(
                 { _id : generatedResponseID}, 
                 {
@@ -69,9 +71,10 @@ const verify = async (req, res) => {
                 }
             );
             console.log(result);
+            
+            // updating user score
+            await updateScore(1, userId);
         }
-
-        // todo: update user score
 
         res.status(200).json(JSONresponse);
 
@@ -128,13 +131,5 @@ async function getImageURL(userId, key) {
         console.error(error);
     }
 }
-
-// (async () => {
-//     try {
-//         getImageURL("665cc198a55bbde3d29a5f31", "665d6ad7a55bbde3d29a5f3c");
-//     } catch (error) {
-//         console.error(error);
-//     }
-// })();
 
 module.exports = { verify, getPresignedURL };
