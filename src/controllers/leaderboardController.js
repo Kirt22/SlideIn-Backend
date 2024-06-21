@@ -20,7 +20,7 @@ const getLeaderboard = async (req, res) => {
       leaderboard.push(user);
     }
 
-    res.status(200).json({ leaderboard });
+    res.status(200).json(leaderboard);
 
   } catch (err) {
     console.error(err);
