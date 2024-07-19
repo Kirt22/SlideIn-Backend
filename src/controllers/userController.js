@@ -36,7 +36,7 @@ const signup = async (req, res) => {
         // generate a new redis sorted set
         await client.zAdd('leaderboard', [{ score: 0, value: result._id.toString() }]);
 
-        res.status(201).json({ message: "Sign up successfull!", user: result, token: token });
+        res.status(201).json({ sucess: true, data: {user: result, token: token }});
 
     } catch (error) {
         console.log(error);
@@ -64,7 +64,7 @@ const signin = async (req, res) => {
 
         const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, JWT_SECRET_KEY);
 
-        res.status(200).json({ message: "Sign in successfull!", user: existingUser, token: token });
+        res.status(200).json({ sucess: true, data: {user: existingUser, token: token }});
 
     } catch (error) {
         console.log(error);
