@@ -53,13 +53,13 @@ const signin = async (req, res) => {
 
         const existingUser = await userModel.findOne({ email: email });
         if (!existingUser) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found!" });
         }
 
         const matchedPassword = await bcrypt.compare(password, existingUser.password);
 
         if (!matchedPassword) {
-            return res.status(400).json({ message: "Invalid Credentials" });
+            return res.status(400).json({ message: "Invalid Credentials!" });
         }
 
         const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, JWT_SECRET_KEY);
