@@ -17,7 +17,7 @@ const signup = async (req, res) => {
         // Check if user exists
         const existingUser = await userModel.findOne({ email: email });
         if (existingUser) {
-            return res.status(400).json({ message: "User already exists!" });
+            return res.status(200).json({ message: "User already exists!" });
         }
 
         // Generate hashed password
