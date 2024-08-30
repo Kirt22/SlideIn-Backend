@@ -5,7 +5,7 @@ const {
   getGeneratedResponses,
   deleteThread,
   generateResponse,
-  deleteAllThread
+  deleteAllThread,
 } = require("../controllers/threadController");
 const auth = require("../middleware/auth");
 

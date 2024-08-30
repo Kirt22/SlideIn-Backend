@@ -6,7 +6,7 @@ const leaderboardRouter = require("./routes/leaderboardRoutes");
 const verifyRouter = require("./routes/verifyRoutes");
 require("./helpers/init_mongoose");
 const dotenv = require("dotenv");
-dotenv.config();  
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,9 +23,9 @@ app.use("/verify", verifyRouter);
 
 // Root Route
 app.get("/welcome", (req, res) => {
-    res.json({ message: "Welcome to SlideIn API" });
+  res.json({ message: "Welcome to SlideIn API" });
 });
 
 app.listen(port, () => {
-    console.log(`Server started at http://localhost:${port}`);
+  console.log(`Server started at http://localhost:${port}`);
 });
